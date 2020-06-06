@@ -1,0 +1,49 @@
+ImageView{
+	-fx-pref-width: 55px;
+	-fx-pref-height: 55px;
+}
+.encadreButton{
+	-fx-background-color: none;
+	-fx-border-color: #161616;
+	-fx-border-radius: 15px;
+}
+Button{	
+	-fx-background-color: none;	
+}
+.encadreHBox{
+	-fx-padding: 15px;
+    
+	-fx-background-color: none;
+	-fx-border-color: #161616;
+	-fx-border-radius: 15px;
+}
+HBox{
+	-fx-fit-to-width: true;
+}
+.GlobalHBox{
+	-fx-pref-height: 75px; 
+	-fx-pref-width: 1250px;
+	-fx-fit-to-width: true;
+	
+}
+.SubHBox{
+	-fx-pref-height: 65px; 
+	-fx-padding: 3px 3px 3px  105px ;
+    -fx-border-insets: 3px 3px 3px 3px  105px ;
+    -fx-background-insets: 3px 3px 3px 3px  105px ;
+	
+}
+.addSubPadding{
+	-fx-padding: 3px 3px 3px  125px ;
+    -fx-border-insets: 3px 3px 3px 3px  125px ;
+    -fx-background-insets: 3px 3px 3px 3px  125px ;
+}
+.deleteButtonGlobale{
+	-fx-padding: 20px 15px 15px 15px;
+}
+.textFieldGlobale{
+	-fx-padding: 15px 15px 15px 15px;
+}
+.timeFielGlobale{
+	-fx-padding: 15px 0px 15px 115px;
+}
