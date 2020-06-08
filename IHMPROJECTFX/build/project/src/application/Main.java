@@ -55,6 +55,10 @@ public class Main extends Application {
 	private Chrono aChrono;
 	private ActualRunningSave actualRunnigSave;
 	private TrayIcon icontray;
+	/**
+	 * Lance l'application au démarrage
+	 * @param stage Stage de l'application principale
+	 * */
 	public void start(Stage stage) {
 		this.stage = stage;
 		this.stage.getIcons().add(new Image(iconPath));
@@ -74,22 +78,23 @@ public class Main extends Application {
 		new Thread(task).start();
 		List<HBoxGlobalTask> containALl = new ArrayList<>();
 		this.aChrono = new Chrono();
-		GlobalTask task1 = new GlobalTask("my firs task2", 922337200);
-		GlobalTask task2 = new GlobalTask("my firs task3", 85);
+		
 		TaskSaver allTasker = loadData();
 		actualRunnigSave = new ActualRunningSave();
 		WindowCreateTask.setActualRunnigSave(actualRunnigSave);
 		if (allTasker == null) {
 			allTasker = new TaskSaver();
-			SubTask aSubTask1 = new SubTask("toto");
-			SubTask aSubTask2 = new SubTask("michel");
-			SubTask aSubTask3 = new SubTask("aandre");
-			SubTask aSubTask4 = new SubTask("bernard");
-			SubTask aSubTask5 = new SubTask("beloche");
+			GlobalTask task1 = new GlobalTask("Create Courses", 160);
+			GlobalTask task2 = new GlobalTask("Read a book", 0);
+			SubTask aSubTask1 = new SubTask("Java Courses 1");
+			SubTask aSubTask2 = new SubTask("Java Courses 2");
+			SubTask aSubTask3 = new SubTask("Java Courses 3");
+			SubTask aSubTask4 = new SubTask("Chapter 1");
+			SubTask aSubTask5 = new SubTask("Chapter 2");
 			task1.addASubtask(aSubTask1);
 			task1.addASubtask(aSubTask2);
 			task1.addASubtask(aSubTask3);
-			task1.addASubtask(aSubTask4);
+			task2.addASubtask(aSubTask4);
 			task2.addASubtask(aSubTask5);
 			allTasker.addAGlobalTask(task1);
 			allTasker.addAGlobalTask(task2);
@@ -129,7 +134,6 @@ public class Main extends Application {
 		addOne.setOnMouseClicked(e -> WindowCreateTask.createAGlobalTask(containALl, root, stage, allTask, aChrono));
 		scrollView.setContent(root);
 		Scene scene = new Scene(gridPane, Color.valueOf("#242424"));
-		// scene.setFill(Paint.valueOf("#242424"));
 		scene.getStylesheets().add(
 				getClass().getResource(File.separator + "style" + File.separator + "styling.css").toExternalForm());
 		stage.setTitle("Task Manager");

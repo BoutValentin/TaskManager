@@ -141,7 +141,7 @@ public class HBoxSubTask {
 		this.paramsButton.getStyleClass().add("buttonSub");
 		this.deleteButton.getStyleClass().add("buttonSubTrash");
 		this.containAllExpectDelete.setStyle(
-				"-fx-background-color:" + ((this.rootHboxGlobale.getIndex() + this.indexInGlobalList) % 2 == 0 ? "#ffffff;" : "#eddeded;"));
+				"-fx-background-color:" + ((this.rootHboxGlobale.getIndex() + this.indexInGlobalList) % 2 == 0 ? "#ffffff;" : "#ededed;"));
 		this.containAllExpectDelete.setMinWidth(1018);
 		this.containAllExpectDelete.setMaxWidth(1018);
 		HBox.setHgrow(this.spacer, Priority.ALWAYS);

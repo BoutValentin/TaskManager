@@ -275,6 +275,8 @@ public class HBoxGlobalTask {
 			this.startButton.setGraphic(new ImageView(start));
 			this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Start");
+			this.addButton.setDisable(false);
+
 		} else if (aChrono.getIsOn() && task.getIsChronoOn()) {
 			this.startButton.setDisable(false);
 			this.parameterButton.setDisable(true);
@@ -282,6 +284,8 @@ public class HBoxGlobalTask {
 			this.startButton.setGraphic(new ImageView(pause));
 			this.startButton.setTooltip(new Tooltip("Arreter la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Pause");
+			this.addButton.setDisable(true);
+
 		} else {
 			this.startButton.setDisable(true);
 			this.deleteButton.setDisable(true);
@@ -289,6 +293,7 @@ public class HBoxGlobalTask {
 			this.startButton.setGraphic(new ImageView(start));
 			this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Start");
+			this.addButton.setDisable(true);
 		}
 
 		this.taskNameLabel.setText(task.getName());
@@ -306,12 +311,12 @@ public class HBoxGlobalTask {
 
 		idx = 0;
 		if (task.getToggle()) {
-			System.out.println(this.children);
+			this.toggleButton.setTooltip(new Tooltip("cacher les sous-tâches"));
 			for (HBoxSubTask anHboxSub : this.children) {
 				this.root.getChildren().add(anHboxSub.getHBoxattach());
 			}
 			this.root.getChildren().add(this.addButton);
-		}
+		}else this.toggleButton.setTooltip(new Tooltip("afficher les sous-tâches"));
 		Font f = this.taskNameLabel.getFont();
 		this.taskNameLabel.setFont(Font.font(f.getFamily(), FontWeight.BOLD, 15));
 	}
@@ -638,7 +643,6 @@ public class HBoxGlobalTask {
 		saveButton.setOnMouseClicked(e -> {
 			SpecficTime timeCreat = new SpecficTime(dateValue[0], dateValue[1], dateValue[2], dateValue[3],
 					dateValue[4], dateValue[5]);
-			System.out.println(timeCreate);
 			savesChanges(textFielName.getText(), timeCreat);
 			newWindow.close();
 		});
