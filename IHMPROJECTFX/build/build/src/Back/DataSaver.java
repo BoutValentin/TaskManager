@@ -34,11 +34,9 @@ public class DataSaver {
 	 * @param numberExecution Un entier pour la gestion d'erreur dans le cas d'un FileNotFoundException
 	 * */
 	public void saveData(TaskSaver dataSaving, int numberExecution) {
-		System.out.println(dataSaving);
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream( new File(this.pathname)))){
 			if(numberExecution==1) new File(this.pathname).createNewFile();
 			oos.writeObject(dataSaving);
-			System.out.println("allGoodSave");
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 			saveData(dataSaving,1);

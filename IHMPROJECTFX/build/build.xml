@@ -133,7 +133,7 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="IHMPROJECTFX" nativeBundles="none"
+			outfile="IHMPROJECTFX" nativeBundles="exe"
 			updatemode="background" >
 	
 			<fx:platform basedir="${java.home}"/>

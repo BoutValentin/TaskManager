@@ -501,7 +501,7 @@ public class HBoxSubTask {
 		globalTaskComboBox.setOnAction(e -> {
 			taskToChanged[0] = globalTaskComboBox.getSelectionModel().getSelectedItem().equals(this.globalTask) ? null
 					: globalTaskComboBox.getSelectionModel().getSelectedItem();
-			if (!taskToChanged[0].equals(this.globalTask)
+			if (taskToChanged[0]!=null && !taskToChanged[0].equals(this.globalTask)
 					&& taskToChanged[0].getListOfSubTaskAttach().contains(this.subTask))
 				saveButton.setDisable(true);
 			else
@@ -566,7 +566,6 @@ public class HBoxSubTask {
 		saveButton.setOnMouseClicked(e -> {
 			SpecficTime timeCreate = new SpecficTime(dateValue[0], dateValue[1], dateValue[2], dateValue[3],
 					dateValue[4], dateValue[5]);
-			System.out.println(timeCreate);
 			saveChanges(textFielName.getText(), timeCreate, taskToChanged[0], taskToMerge[0], taskToChanged[0] != null);
 			newWindow.close();
 		});
@@ -586,11 +585,7 @@ public class HBoxSubTask {
 			this.globalTask.removeAmountOfTimeByTime(subTaskmerge.getAmountOfTime());
 			int pos = this.globalTask.getPositionInList(this.subTask);
 			if ( pos != -1) {
-				System.out.println("global"+this.globalTask.getListOfSubTaskAttach());
-				System.out.println("allaroothbox"+this.rootHboxGlobale.getListHBoxSubAttach());
 				if (this.globalTask.getPositionInList(subTaskmerge) != -1) {
-					System.out.println("global"+this.globalTask.getListOfSubTaskAttach());
-					System.out.println("allaroothbox"+this.rootHboxGlobale.getListHBoxSubAttach());
 					this.rootHboxGlobale.getListHBoxSubAttach().remove(this.globalTask.getPositionInList(subTaskmerge));
 					this.rootHboxGlobale.getListHBoxSubAttach().remove(pos);
 				}
@@ -641,8 +636,6 @@ public class HBoxSubTask {
 			}
 			//TODO: flknsk
 			if (this.allGlobalTask.getPositionOfGlobalTask(otherGlobalTask) != -1) {
-				System.out.println(this +"actualHbox");
-				System.out.println("new HBox"+ this.allHBoxGlobal.get(this.allGlobalTask.getPositionOfGlobalTask(otherGlobalTask)));
 				HBoxSubTask ansub = new HBoxSubTask(this.actualRunnigSave, this.allHBoxGlobal,
 						this.allHBoxGlobal.get(allGlobalTask.getPositionOfGlobalTask(otherGlobalTask))
 								.getListHBoxSubAttach(),
@@ -654,8 +647,7 @@ public class HBoxSubTask {
 				ansub.setHBox();
 				this.allHBoxGlobal.get(this.allGlobalTask.getPositionOfGlobalTask(otherGlobalTask))
 						.getListHBoxSubAttach().add(ansub);
-				System.out.println(this.allHBoxGlobal.get(allGlobalTask.getPositionOfGlobalTask(otherGlobalTask))
-						.getListHBoxSubAttach());
+			
 			}
 			this.globalTask.deleteATaskByTask(this.subTask);
 			this.subTask.setAmontOfTimeByTime(time);

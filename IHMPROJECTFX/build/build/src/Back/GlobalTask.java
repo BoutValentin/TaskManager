@@ -230,7 +230,6 @@ public class GlobalTask extends Task{
 	public int getPositionInList(SubTask sub) {
 		int res =0;
 		for(SubTask s: this.listOfSubTaskAttach) {
-			System.out.println(res);
 			if(s.equals(sub)) return res;
 			res++;
 		}

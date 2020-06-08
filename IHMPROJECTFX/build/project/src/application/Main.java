@@ -78,7 +78,6 @@ public class Main extends Application {
 		new Thread(task).start();
 		List<HBoxGlobalTask> containALl = new ArrayList<>();
 		this.aChrono = new Chrono();
-		
 		TaskSaver allTasker = loadData();
 		actualRunnigSave = new ActualRunningSave();
 		WindowCreateTask.setActualRunnigSave(actualRunnigSave);
@@ -115,7 +114,6 @@ public class Main extends Application {
 		gridPane.getChildren().addAll(appNameLabel, scrollView);
 		appNameLabel.setAlignment(Pos.TOP_CENTER);
 		gridPane.getColumnConstraints().addAll(column0, column1, column3);
-		System.out.println(allTask.getListAllTask());
 		for (GlobalTask t : allTask.getListAllTask()) {
 			HBoxGlobalTask anHBoxGlobal = new HBoxGlobalTask(actualRunnigSave, allTask, t, containALl, stage, root,
 					aChrono, idx);
@@ -153,11 +151,10 @@ public class Main extends Application {
 			@Override
 			public void handle(WindowEvent event) {
 				event.consume();
-				System.out.println(allTask);
 				stage.hide();
 				if (!SystemTray.isSupported()) {
 					System.out.println("pas de systeme tray suport");
-					stop(stage, "resources/saveData", allTask);
+					stop(stage, "saveData", allTask);
 
 				}
 			}
@@ -170,7 +167,6 @@ public class Main extends Application {
 	 */
 	private void addAppToTray() {
 		try {
-			System.out.println("hello");
 			Toolkit.getDefaultToolkit();
 			if (!SystemTray.isSupported()) {
 				System.out.println("pas de systeme tray suport");
@@ -183,8 +179,6 @@ public class Main extends Application {
 			this.icontray = trayIcon;
 			trayIcon.setImageAutoSize(true);
 			trayIcon.addActionListener(e -> Platform.runLater(this::showStage));
-
-			System.out.println("lol");
 			java.awt.MenuItem openItem = new java.awt.MenuItem("Task Manager");
 			openItem.addActionListener(e -> Platform.runLater(this::showStage));
 			openItem.setFont(Font.decode(null).deriveFont(Font.BOLD));
@@ -197,7 +191,7 @@ public class Main extends Application {
 			}));
 			java.awt.MenuItem closeItem = new java.awt.MenuItem("Fermer l'application");
 			closeItem.addActionListener(e -> {
-				stop(this.stage, "resources/saveData", this.allTask);
+				stop(this.stage, "saveData", this.allTask);
 			});
 			this.notificationTimer.schedule(new TimerTask() {
 

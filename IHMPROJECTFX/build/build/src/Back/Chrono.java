@@ -34,7 +34,6 @@ public class Chrono implements Serializable {
 			public void run() {
 				// TODO Auto-generated method stub
 				time.setATimeByAddingSeconds(1);
-				System.out.println(time.toString());
 			}
 		}, 0, 1000);
 	}
@@ -49,10 +48,8 @@ public class Chrono implements Serializable {
 		aTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				time1.setATimeByAddingSeconds(1);
 				time2.setATimeByAddingSeconds(1);
-				System.out.println(time1.toString()+time2.toString());
 			}
 		}, 0, 1000);
 	}

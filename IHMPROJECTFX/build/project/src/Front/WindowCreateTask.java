@@ -195,7 +195,7 @@ public class WindowCreateTask {
 				timeBox, changeGlobalRootLabel, globalTaskComboBox, hboxButton);
 		rootWindows.getStyleClass().add("rootCreateSub");
 		textFielName.textProperty().addListener((observable, oldvalue, newValue) -> {
-			System.out.println(oldvalue + "" + newValue);
+			
 			if (newValue == null || newValue.length() == 0) {
 				saveButton.setDisable(true);
 				saveButton.setTooltip(new Tooltip("Le nom de la tache ne peut pas etre null"));
@@ -224,7 +224,6 @@ public class WindowCreateTask {
 		saveButton.setOnMouseClicked(e -> {
 			SpecficTime timeCreate = new SpecficTime(dateValue[0], dateValue[1], dateValue[2], dateValue[3],
 					dateValue[4], dateValue[5]);
-			System.out.println(timeCreate);
 			saveCreatingSub(hboxtoChanged[0], allHbox, allGlobalTask, taskToChanged[0], prStage, root,
 					textFielName.getText(), timeCreate, aChrono);
 			newWindow.close();
@@ -390,7 +389,7 @@ public class WindowCreateTask {
 				timeBox, hboxButton);
 
 		textFielName.textProperty().addListener((observable, oldvalue, newValue) -> {
-			System.out.println(oldvalue + "" + newValue);
+			
 			if (newValue == null || newValue.length() == 0) {
 				saveButton.setDisable(true);
 				saveButton.setTooltip(new Tooltip("Le nom de la tache ne peut pas etre null"));
@@ -424,7 +423,6 @@ public class WindowCreateTask {
 		saveButton.setOnMouseClicked(e -> {
 			SpecficTime timeCreate = new SpecficTime(dateValue[0], dateValue[1], dateValue[2], dateValue[3],
 					dateValue[4], dateValue[5]);
-			System.out.println(timeCreate);
 			saveCreatingGlobal(allHbox, rootOfAll, primStage, allTask, textFielName.getText(), timeCreate, aChrono);
 			newWindow.close();
 		});
