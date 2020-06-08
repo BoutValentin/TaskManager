@@ -194,31 +194,34 @@ public class HBoxGlobalTask {
 		this.taskNameLabel.getStyleClass().addAll("textFieldGlobale", "boldText");
 		this.underTaskLabel.getStyleClass().add("textFieldGlobale");
 		this.containExeptDelete.setMinWidth(1190); // On definit la taille minimum de l'hbox sans le button delete
+		this.containExeptDelete.setPrefWidth(1190);
 		Font f = this.taskNameLabel.getFont();
 		this.taskNameLabel.setFont(Font.font(f.getFamily(), FontWeight.BOLD, 15));
 		this.startButton.setFont(Font.font(f.getFamily(), FontWeight.BOLD, 15));
 		HBox.setHgrow(this.spacer, Priority.ALWAYS); // On definit la priorite au spacer afin que les boutons parametres
 														// etc... soit toujours sur la droite
+
+		HBox.setHgrow(this.startButton, Priority.ALWAYS);
 		this.parameterButton.getStyleClass().add("buttonParamsAndToogle");
 		this.toggleButton.getStyleClass().add("buttonParamsAndToogle");
 		// Initialisation
 		this.startButton.setText("Start");
 		this.startButton.setGraphic(new ImageView(start));
-		this.startButton.setTooltip(new Tooltip("Demarrez la tache: " + this.globalTask.getName()));
+		this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 		this.parameterButton.setGraphic(new ImageView(parameter));
-		this.parameterButton.setTooltip(new Tooltip("Parametrez la tache: " + this.globalTask.getName()));
+		this.parameterButton.setTooltip(new Tooltip("Parametrer la tache: " + this.globalTask.getName()));
 		this.deleteButton.setGraphic(new ImageView(delete));
-		this.deleteButton.setTooltip(new Tooltip("Supprimez la tache: " + this.globalTask.getName()));
+		this.deleteButton.setTooltip(new Tooltip("Supprimer la tache: " + this.globalTask.getName()));
 		this.toggleButton.setGraphic(new ImageView(this.globalTask.getToggle() ? upArrow : downArrow));
-		this.toggleButton.setTooltip(new Tooltip("Affichez les sous-taches liées à: " + this.globalTask.getName()));
+		this.toggleButton.setTooltip(new Tooltip("Afficher les sous-taches liées à: " + this.globalTask.getName()));
 		this.taskNameLabel.setText(this.globalTask.getName());
 		this.taskNameLabel.setTooltip(new Tooltip("Nom de la tache"));
 		this.underTaskLabel.setText("" + this.globalTask.getNumberOfUnderTask() + " sous-taches");
 		this.underTaskLabel.setTooltip(new Tooltip("Nombre de sous-taches liès a :" + this.globalTask.getName()));
 		this.timeTextLabel.setText("Temps : ");
 		this.labelTheTime.setText(createTimeLabel(this.globalTask));
-		this.labelTheTime.setTooltip(new Tooltip("Temps passer sur cette tache globale"));
-		this.addButton.setTooltip(new Tooltip("Creez une tache"));
+		this.labelTheTime.setTooltip(new Tooltip("Temps passé sur cette tache globale"));
+		this.addButton.setTooltip(new Tooltip("Creer une tache"));
 		// Pour chaque sous tache on creer Une HboxSub que l'on ajoute a la List
 		// contenant ses HboxSub par tache
 		int idx = 0;
@@ -229,7 +232,7 @@ public class HBoxGlobalTask {
 			anHboxSub.setHBox();
 			this.children.add(anHboxSub);
 		}
-		this.addButton.setText("Creez une sous-taches");
+		this.addButton.setText("Creer une sous-taches");
 		;
 		this.addButton.setGraphic(new ImageView(plus));
 		// Event
@@ -270,18 +273,21 @@ public class HBoxGlobalTask {
 			this.parameterButton.setDisable(false);
 			this.deleteButton.setDisable(false);
 			this.startButton.setGraphic(new ImageView(start));
+			this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Start");
 		} else if (aChrono.getIsOn() && task.getIsChronoOn()) {
 			this.startButton.setDisable(false);
 			this.parameterButton.setDisable(true);
 			this.deleteButton.setDisable(true);
 			this.startButton.setGraphic(new ImageView(pause));
+			this.startButton.setTooltip(new Tooltip("Arreter la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Pause");
 		} else {
 			this.startButton.setDisable(true);
 			this.deleteButton.setDisable(true);
 			this.parameterButton.setDisable(true);
 			this.startButton.setGraphic(new ImageView(start));
+			this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Start");
 		}
 
@@ -328,7 +334,7 @@ public class HBoxGlobalTask {
 		Button valider = new Button("J'en suis sur !", new ImageView(delete));
 		valider.getStyleClass().add("boldText");
 		valider.getStyleClass().add("buttonActionCreateSub");
-		Button annuler = new Button("Non! annulez", new ImageView(cancel));
+		Button annuler = new Button("Non! annuler", new ImageView(cancel));
 		annuler.getStyleClass().add("buttonActionCreateSub");
 		containerButton.getChildren().addAll(valider, annuler);
 		containerButton.setSpacing(20);
@@ -411,7 +417,7 @@ public class HBoxGlobalTask {
 					+ " secondes";
 		case 3:
 			return "" + task.getAmountOfTime().getHours() + " heures " + task.getAmountOfTime().getMinutes()
-					+ " minutes " + task.getAmountOfTime().getSeconds();
+					+ " minutes " + task.getAmountOfTime().getSeconds()+ " secondes";
 		case 4:
 			return "" + task.getAmountOfTime().getDay() + " jours " + task.getAmountOfTime().getHours() + " heures "
 					+ task.getAmountOfTime().getMinutes() + " minutes " + task.getAmountOfTime().getSeconds()
@@ -508,33 +514,33 @@ public class HBoxGlobalTask {
 		changeAmountOfTimeBox.getChildren().addAll(changeAmountOfTimeLabel, helpIcon);
 		HBox.setMargin(helpIcon, new Insets(20, 5, 0, 5));
 		ComboBox<Long> secondsComboBox = new ComboBox<Long>();
-		Tooltip secondsToolTip = new Tooltip("Choissisez les secondes dans cette area");
+		Tooltip secondsToolTip = new Tooltip("Choissiser les secondes dans cette area");
 		secondsComboBox.setTooltip(secondsToolTip);
 		secondsComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 60));
 		secondsComboBox.setPromptText("" + dateValue[5]);
 
 		ComboBox<Long> minutesComboBox = new ComboBox<>();
 		minutesComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 60));
-		minutesComboBox.setTooltip(new Tooltip("Choissisez les minutes dans cette area"));
+		minutesComboBox.setTooltip(new Tooltip("Choissiser les minutes dans cette area"));
 		minutesComboBox.setPromptText("" + dateValue[4]);
 
 		ComboBox<Long> hoursComboBox = new ComboBox<>();
 		hoursComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 24));
-		hoursComboBox.setTooltip(new Tooltip("Choississez les heures dans cette area"));
+		hoursComboBox.setTooltip(new Tooltip("Choississer les heures dans cette area"));
 		hoursComboBox.setPromptText("" + dateValue[3]);
 
 		ComboBox<Long> daysComboBox = new ComboBox<>();
 		daysComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 31));
-		daysComboBox.setTooltip(new Tooltip("Choississez le nombre de jour dans cette area"));
+		daysComboBox.setTooltip(new Tooltip("Choississer le nombre de jour dans cette area"));
 		daysComboBox.setPromptText("" + dateValue[2]);
 
 		ComboBox<Long> monthComboBox = new ComboBox<>();
 		monthComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 13));
-		monthComboBox.setTooltip(new Tooltip("Choississez le nombre de mois dans cette area"));
+		monthComboBox.setTooltip(new Tooltip("Choississer le nombre de mois dans cette area"));
 		monthComboBox.setPromptText("" + dateValue[1]);
 
 		TextField yearsInput = new TextField();
-		yearsInput.setTooltip(new Tooltip("Tapez le nombre d'année de votre tache"));
+		yearsInput.setTooltip(new Tooltip("Taper le nombre d'année de votre tache"));
 		yearsInput.setPromptText("" + dateValue[0]);
 
 		HBox timeBox = new HBox();
@@ -622,7 +628,7 @@ public class HBoxGlobalTask {
 		secondScene.getStylesheets().add(
 				getClass().getResource(File.separator + "style" + File.separator + "styling.css").toExternalForm());
 		Stage newWindow = new Stage();
-		newWindow.setTitle("Modifiez une tache");
+		newWindow.setTitle("Modifier une tache");
 		newWindow.setScene(secondScene);
 		newWindow.initModality(Modality.APPLICATION_MODAL);
 		newWindow.initOwner(this.primaryStage);

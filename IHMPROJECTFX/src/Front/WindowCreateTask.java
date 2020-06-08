@@ -77,7 +77,7 @@ public class WindowCreateTask {
 		Label titleLabel = new Label("Creer une sous-tache");
 		titleLabel.getStyleClass().add("createSubTitle");
 		HBoxGlobalTask[] hboxtoChanged = new HBoxGlobalTask[] { hboxGlobal };
-		Label changeNamelabel = new Label("Nommez votre tache :");
+		Label changeNamelabel = new Label("Nommer votre tache :");
 		changeNamelabel.getStyleClass().add("parameterName");
 		TextField textFielName = new TextField("");
 		textFielName.setMaxWidth(940);
@@ -96,7 +96,7 @@ public class WindowCreateTask {
 		changeAmountOfTimeBox.getChildren().addAll(changeAmountOfTimeLabel, helpIcon);
 		HBox.setMargin(helpIcon, new Insets(20, 5, 0, 5));
 		ComboBox<Long> secondsComboBox = new ComboBox<Long>();
-		Tooltip secondsToolTip = new Tooltip("Choissisez les secondes dans cette area");
+		Tooltip secondsToolTip = new Tooltip("Choissiser les secondes dans cette area");
 		secondsComboBox.setTooltip(secondsToolTip);
 		secondsComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 60));
 		secondsComboBox.setPromptText("" + dateValue[5]);
@@ -105,14 +105,14 @@ public class WindowCreateTask {
 		});
 		ComboBox<Long> minutesComboBox = new ComboBox<>();
 		minutesComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 60));
-		minutesComboBox.setTooltip(new Tooltip("Choissisez les minutes dans cette area"));
+		minutesComboBox.setTooltip(new Tooltip("Choissiser les minutes dans cette area"));
 		minutesComboBox.setPromptText("" + dateValue[4]);
 		minutesComboBox.setOnAction((e) -> {
 			dateValue[4] = minutesComboBox.getSelectionModel().getSelectedItem();
 		});
 		ComboBox<Long> hoursComboBox = new ComboBox<>();
 		hoursComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 24));
-		hoursComboBox.setTooltip(new Tooltip("Choississez les heures dans cette area"));
+		hoursComboBox.setTooltip(new Tooltip("Choississer les heures dans cette area"));
 		hoursComboBox.setPromptText("" + dateValue[3]);
 		hoursComboBox.setOnAction((e) -> {
 			dateValue[3] = hoursComboBox.getSelectionModel().getSelectedItem();
@@ -120,20 +120,20 @@ public class WindowCreateTask {
 		ComboBox<Long> daysComboBox = new ComboBox<>();
 
 		daysComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 31));
-		daysComboBox.setTooltip(new Tooltip("Choississez le nombre de jour dans cette area"));
+		daysComboBox.setTooltip(new Tooltip("Choississer le nombre de jour dans cette area"));
 		daysComboBox.setPromptText("" + dateValue[2]);
 		daysComboBox.setOnAction((e) -> {
 			dateValue[2] = daysComboBox.getSelectionModel().getSelectedItem();
 		});
 		ComboBox<Long> monthComboBox = new ComboBox<>();
 		monthComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 13));
-		monthComboBox.setTooltip(new Tooltip("Choississez le nombre de mois dans cette area"));
+		monthComboBox.setTooltip(new Tooltip("Choississer le nombre de mois dans cette area"));
 		monthComboBox.setPromptText("" + dateValue[1]);
 		monthComboBox.setOnAction((e) -> {
 			dateValue[1] = monthComboBox.getSelectionModel().getSelectedItem();
 		});
 		TextField yearsInput = new TextField();
-		yearsInput.setTooltip(new Tooltip("Tapez le nombre d'année de votre tache"));
+		yearsInput.setTooltip(new Tooltip("Taper le nombre d'année de votre tache"));
 		yearsInput.setPromptText("" + dateValue[0]);
 		// Verifionis si pendant l'input on as des chiffres
 		yearsInput.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -161,7 +161,7 @@ public class WindowCreateTask {
 				new Label("Jour:"), daysComboBox, new Label("Heure:"), hoursComboBox, new Label("Minutes:"),
 				minutesComboBox, new Label("Secondes:"), secondsComboBox);
 		// Modifiez la root globalTask
-		Label changeGlobalRootLabel = new Label("Choississez la tache globale d'appartenance de la sous tache :");
+		Label changeGlobalRootLabel = new Label("Choississer la tache globale d'appartenance de la sous tache :");
 		changeGlobalRootLabel.getStyleClass().add("parameterName");
 		ComboBox<GlobalTask> globalTaskComboBox = new ComboBox<>();
 		globalTaskComboBox.setPromptText(globalTask.getName());
@@ -181,7 +181,7 @@ public class WindowCreateTask {
 		Button saveButton = new Button("Creer la sous-tache", new ImageView(plus));
 		saveButton.getStyleClass().addAll("buttonActionCreateSub", "boldText");
 		saveButton.setDisable(true);
-		Button cancelButton = new Button("Annulez", new ImageView(cancel));
+		Button cancelButton = new Button("Annuler", new ImageView(cancel));
 
 		cancelButton.getStyleClass().add("buttonActionCreateSub");
 
@@ -201,7 +201,7 @@ public class WindowCreateTask {
 				saveButton.setTooltip(new Tooltip("Le nom de la tache ne peut pas etre null"));
 				rootWindows.getChildren().add(3, errorLabel);
 
-			} else if (newValue.length() > 255) {
+			} else if (newValue.length() > 250) {
 				textFielName.setText(oldvalue);
 			} else {
 				saveButton.setDisable(false);
@@ -214,7 +214,7 @@ public class WindowCreateTask {
 		secondScene.getStylesheets().add(WindowCreateTask.class
 				.getResource(File.separator + "style" + File.separator + "styling.css").toExternalForm());
 		Stage newWindow = new Stage();
-		newWindow.setTitle("Creez une sous tache");
+		newWindow.setTitle("Creer une sous tache");
 		newWindow.setScene(secondScene);
 		newWindow.initModality(Modality.APPLICATION_MODAL);
 		newWindow.initOwner(prStage);
@@ -285,14 +285,14 @@ public class WindowCreateTask {
 			TaskSaver allTask, Chrono aChrono) {
 
 		long[] dateValue = new long[] { 0, 0, 0, 0, 0, 0 };
-		Label titleCreate = new Label("Creez une tache");
+		Label titleCreate = new Label("Creer une tache");
 		titleCreate.getStyleClass().add("createTitle");
 		Label changeNamelabel = new Label("Nommer votre tache :");
 		changeNamelabel.getStyleClass().add("parameterName");
 		TextField textFielName = new TextField("");
 		textFielName.setMaxWidth(950);
 		VBox.setMargin(textFielName, new Insets(5, 0, 15, 25));
-		textFielName.setPromptText("250 caractere maximum");
+		textFielName.setPromptText("250 caracteres maximum");
 		Label errorLabel = new Label();
 		errorLabel.setText("Le nom de la tache ne peut etre vide");
 		errorLabel.setGraphic(new ImageView(error));
@@ -308,7 +308,7 @@ public class WindowCreateTask {
 		HBox.setMargin(helpIcon, new Insets(20, 5, 0, 5));
 		changeAmountOfTimeBox.getChildren().addAll(changeAmountOfTimeLabel, helpIcon);
 		ComboBox<Long> secondsComboBox = new ComboBox<Long>();
-		Tooltip secondsToolTip = new Tooltip("Choissisez les secondes dans cette area");
+		Tooltip secondsToolTip = new Tooltip("Choissiser les secondes dans cette area");
 		secondsComboBox.setTooltip(secondsToolTip);
 		secondsComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 60));
 		secondsComboBox.setPromptText("" + dateValue[5]);
@@ -317,14 +317,14 @@ public class WindowCreateTask {
 		});
 		ComboBox<Long> minutesComboBox = new ComboBox<>();
 		minutesComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 60));
-		minutesComboBox.setTooltip(new Tooltip("Choissisez les minutes dans cette area"));
+		minutesComboBox.setTooltip(new Tooltip("Choissiser les minutes dans cette area"));
 		minutesComboBox.setPromptText("" + dateValue[4]);
 		minutesComboBox.setOnAction((e) -> {
 			dateValue[4] = minutesComboBox.getSelectionModel().getSelectedItem();
 		});
 		ComboBox<Long> hoursComboBox = new ComboBox<>();
 		hoursComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 24));
-		hoursComboBox.setTooltip(new Tooltip("Choississez les heures dans cette area"));
+		hoursComboBox.setTooltip(new Tooltip("Choississer les heures dans cette area"));
 		hoursComboBox.setPromptText("" + dateValue[3]);
 		hoursComboBox.setOnAction((e) -> {
 			dateValue[3] = hoursComboBox.getSelectionModel().getSelectedItem();
@@ -332,20 +332,20 @@ public class WindowCreateTask {
 		ComboBox<Long> daysComboBox = new ComboBox<>();
 		daysComboBox.getItems().add(dateValue[2]);
 		daysComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 31));
-		daysComboBox.setTooltip(new Tooltip("Choississez le nombre de jour dans cette area"));
+		daysComboBox.setTooltip(new Tooltip("Choississer le nombre de jour dans cette area"));
 		daysComboBox.setPromptText("" + dateValue[2]);
 		daysComboBox.setOnAction((e) -> {
 			dateValue[2] = daysComboBox.getSelectionModel().getSelectedItem();
 		});
 		ComboBox<Long> monthComboBox = new ComboBox<>();
 		monthComboBox.getItems().addAll(HBoxSubTask.compteurInList(0, 13));
-		monthComboBox.setTooltip(new Tooltip("Choississez le nombre de mois dans cette area"));
+		monthComboBox.setTooltip(new Tooltip("Choississer le nombre de mois dans cette area"));
 		monthComboBox.setPromptText("" + dateValue[1]);
 		monthComboBox.setOnAction((e) -> {
 			dateValue[1] = monthComboBox.getSelectionModel().getSelectedItem();
 		});
 		TextField yearsInput = new TextField();
-		yearsInput.setTooltip(new Tooltip("Tapez le nombre d'année de votre tache"));
+		yearsInput.setTooltip(new Tooltip("Taper le nombre d'année de votre tache"));
 		yearsInput.setPromptText("" + dateValue[0]);
 		// Verifionis si pendant l'input on as que des chiffres
 		yearsInput.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -376,7 +376,7 @@ public class WindowCreateTask {
 
 		Button saveButton = new Button("Creer la tache", new ImageView(plus));
 		saveButton.setDisable(true);
-		Button cancelButton = new Button("Annulez", new ImageView(cancel));
+		Button cancelButton = new Button("Annuler", new ImageView(cancel));
 		saveButton.getStyleClass().addAll("buttonActionCreateSub", "boldText");
 		cancelButton.getStyleClass().add("buttonActionCreateSub");
 
@@ -400,7 +400,7 @@ public class WindowCreateTask {
 				textFielName.setText(oldvalue);
 			} else {
 				saveButton.setDisable(false);
-				saveButton.setTooltip(new Tooltip("appuyer ici pour creez la Tache"));
+				saveButton.setTooltip(new Tooltip("appuyer ici pour creer la Tache"));
 				if (rootWindows.getChildren().contains(errorLabel))
 					rootWindows.getChildren().remove(errorLabel);
 			}

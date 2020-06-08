@@ -42,7 +42,7 @@ public class Refresh {
 		for (HBoxGlobalTask h : allHbox) {
 			root.getChildren().add(h.getVboxAttach());
 		}
-		Button addOne = new Button("Ajoutez une tache",
+		Button addOne = new Button("Ajouter une tache",
 				new ImageView(new Image(HBoxGlobalTask.class.getResourceAsStream(File.separator + "plusC.png"), 35, 35,
 						false, false)));
 		root.getChildren().add(addOne);

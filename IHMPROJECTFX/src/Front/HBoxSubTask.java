@@ -141,7 +141,7 @@ public class HBoxSubTask {
 		this.paramsButton.getStyleClass().add("buttonSub");
 		this.deleteButton.getStyleClass().add("buttonSubTrash");
 		this.containAllExpectDelete.setStyle(
-				"-fx-background-color:" + (this.rootHboxGlobale.getIndex() % 2 == 0 ? "#ffffff;" : "#ededed;"));
+				"-fx-background-color:" + ((this.rootHboxGlobale.getIndex() + this.indexInGlobalList) % 2 == 0 ? "#ffffff;" : "#eddeded;"));
 		this.containAllExpectDelete.setMinWidth(1018);
 		this.containAllExpectDelete.setMaxWidth(1018);
 		HBox.setHgrow(this.spacer, Priority.ALWAYS);
@@ -156,11 +156,11 @@ public class HBoxSubTask {
 		// Initialisons nos widgets
 		this.startButton.setText("Start");
 		this.startButton.setGraphic(new ImageView(start));
-		this.startButton.setTooltip(new Tooltip("Demarrez le chrono de la sous-taches: " + this.subTask.getName()));
+		this.startButton.setTooltip(new Tooltip("Demarrer le chrono de la sous-taches: " + this.subTask.getName()));
 		this.paramsButton.setGraphic(new ImageView(parameter));
-		this.paramsButton.setTooltip(new Tooltip("Parametrez la sous-tache: " + this.subTask.getName()));
+		this.paramsButton.setTooltip(new Tooltip("Parametrer la sous-tache: " + this.subTask.getName()));
 		this.deleteButton.setGraphic(new ImageView(delete));
-		this.deleteButton.setTooltip(new Tooltip("Supprimez la sous-tache" + this.subTask.getName()));
+		this.deleteButton.setTooltip(new Tooltip("Supprimer la sous-tache" + this.subTask.getName()));
 		this.taskNameLabel.setText(this.subTask.getName());
 		this.taskNameLabel.setTooltip(new Tooltip("Le nom de la sous-tache"));
 		this.timeTextLabel.setText("Temps: ");
@@ -207,16 +207,21 @@ public class HBoxSubTask {
 			this.deleteButton.setDisable(false);
 			this.startButton.setGraphic(new ImageView(start));
 			this.startButton.setText("Start");
+			this.startButton.setTooltip(new Tooltip("Demarrer le chrono de la sous-taches: " + this.subTask.getName()));
 		} else if (this.chronoOfAll.getIsOn() && this.subTask.getIsChronoOn()) {
 			this.startButton.setDisable(false);
 			this.paramsButton.setDisable(true);
 			this.deleteButton.setDisable(true);
 			this.startButton.setGraphic(new ImageView(pause));
 			this.startButton.setText("Pause");
+			this.startButton.setTooltip(new Tooltip("Arreter le chrono de la sous-taches: " + this.subTask.getName()));
 		} else {
 			this.startButton.setDisable(true);
 			this.deleteButton.setDisable(true);
 			this.paramsButton.setDisable(true);
+			this.startButton.setGraphic(new ImageView(start));
+			this.startButton.setText("Start");
+			this.startButton.setTooltip(new Tooltip("Demarrer le chrono de la sous-taches: " + this.subTask.getName()));
 		}
 
 		this.taskNameLabel.setText(this.subTask.getName());
@@ -329,6 +334,9 @@ public class HBoxSubTask {
 	private void startChrono() {
 		this.subTask.setIsChronoOn(true);
 		this.globalTask.setIsChronoOn(true);
+		this.actualRunnigSave.actualOrLastHbox = this.rootHboxGlobale;
+		this.actualRunnigSave.actualOrLastSubHbox = this;
+		this.actualRunnigSave.lastIsSub = true;
 		this.chronoOfAll.doubleStart(this.globalTask.getAmountOfTime(), this.subTask.getAmountOfTime());
 		this.time = new Timer();
 		Refresh.refresContent(this.primaryStage, this.rootOfAll, this.allHBoxGlobal, this.allGlobalTask,
@@ -343,9 +351,7 @@ public class HBoxSubTask {
 	private void closeChrono() {
 		this.subTask.setIsChronoOn(false);
 		this.globalTask.setIsChronoOn(false);
-		this.actualRunnigSave.actualOrLastHbox = this.rootHboxGlobale;
-		this.actualRunnigSave.actualOrLastSubHbox = this;
-		this.actualRunnigSave.lastIsSub = true;
+		
 		this.chronoOfAll.stop();
 		this.time.cancel();
 		new DataSaver().saveData(this.allGlobalTask, 0);
@@ -359,9 +365,9 @@ public class HBoxSubTask {
 	 */
 	private void handleParameterClick() {
 		long[] dateValue = new long[] { this.subTask.getAmountOfTime().getYear(),
-				this.subTask.getAmountOfTime().getMonth(), this.subTask.getAmountOfTime().getDay(),
-				this.subTask.getAmountOfTime().getHours(), this.subTask.getAmountOfTime().getMinutes(),
-				this.subTask.getAmountOfTime().getSeconds() };
+		this.subTask.getAmountOfTime().getMonth(), this.subTask.getAmountOfTime().getDay(),
+		this.subTask.getAmountOfTime().getHours(), this.subTask.getAmountOfTime().getMinutes(),
+		this.subTask.getAmountOfTime().getSeconds() };
 		GlobalTask[] taskToChanged = new GlobalTask[] { null };
 		SubTask[] taskToMerge = new SubTask[] { null };
 		Label labelTitle = new Label("Paramètres de la sous-tache");
@@ -376,7 +382,7 @@ public class HBoxSubTask {
 		textFielName.setMaxWidth(945);
 		VBox.setMargin(textFielName, new Insets(5, 0, 15, 25));
 		Label errorLabel = new Label();
-		Label changeAmountOfTimeLabel = new Label("Changez le temps passé sur cette tache :");
+		Label changeAmountOfTimeLabel = new Label("Changer le temps passé sur cette tache :");
 		changeAmountOfTimeLabel.getStyleClass().add("parameterName");
 		ImageView helpIcon = new ImageView(help);
 		helpIcon.getStyleClass().add("helpIcon");
@@ -386,7 +392,7 @@ public class HBoxSubTask {
 		changeAmountOfTimeBox.getChildren().addAll(changeAmountOfTimeLabel, helpIcon);
 		HBox.setMargin(helpIcon, new Insets(20, 5, 0, 5));
 		ComboBox<Long> secondsComboBox = new ComboBox<Long>();
-		Tooltip secondsToolTip = new Tooltip("Choissisez les secondes dans cette zone");
+		Tooltip secondsToolTip = new Tooltip("Choissiser les secondes dans cette zone");
 		secondsComboBox.setTooltip(secondsToolTip);
 		secondsComboBox.getItems().addAll(compteurInList(0, 60));
 		secondsComboBox.setPromptText("" + dateValue[5]);
@@ -401,7 +407,7 @@ public class HBoxSubTask {
 		});
 		ComboBox<Long> minutesComboBox = new ComboBox<>();
 		minutesComboBox.getItems().addAll(compteurInList(0, 60));
-		minutesComboBox.setTooltip(new Tooltip("Choissisez les minutes dans cette zone"));
+		minutesComboBox.setTooltip(new Tooltip("Choissiser les minutes dans cette zone"));
 		minutesComboBox.setPromptText("" + dateValue[4]);
 		minutesComboBox.setOnAction((e) -> {
 			dateValue[4] = minutesComboBox.getSelectionModel().getSelectedItem();
@@ -414,7 +420,7 @@ public class HBoxSubTask {
 		});
 		ComboBox<Long> hoursComboBox = new ComboBox<>();
 		hoursComboBox.getItems().addAll(compteurInList(0, 24));
-		hoursComboBox.setTooltip(new Tooltip("Choississez les heures dans cette zone"));
+		hoursComboBox.setTooltip(new Tooltip("Choississer les heures dans cette zone"));
 		hoursComboBox.setPromptText("" + dateValue[3]);
 		hoursComboBox.setOnAction((e) -> {
 			dateValue[3] = hoursComboBox.getSelectionModel().getSelectedItem();
@@ -427,7 +433,7 @@ public class HBoxSubTask {
 		});
 		ComboBox<Long> daysComboBox = new ComboBox<>();
 		daysComboBox.getItems().addAll(compteurInList(0, 31));
-		daysComboBox.setTooltip(new Tooltip("Choississez le nombre de jour dans cette zone"));
+		daysComboBox.setTooltip(new Tooltip("Choississer le nombre de jour dans cette zone"));
 		daysComboBox.setPromptText("" + dateValue[2]);
 		daysComboBox.setOnAction((e) -> {
 			dateValue[2] = daysComboBox.getSelectionModel().getSelectedItem();
@@ -439,7 +445,7 @@ public class HBoxSubTask {
 		});
 		ComboBox<Long> monthComboBox = new ComboBox<>();
 		monthComboBox.getItems().addAll(compteurInList(0, 13));
-		monthComboBox.setTooltip(new Tooltip("Choississez le nombre de mois dans cette zone"));
+		monthComboBox.setTooltip(new Tooltip("Choississer le nombre de mois dans cette zone"));
 		monthComboBox.setPromptText("" + dateValue[1]);
 		monthComboBox.setOnAction((e) -> {
 			dateValue[1] = monthComboBox.getSelectionModel().getSelectedItem();
@@ -451,7 +457,7 @@ public class HBoxSubTask {
 				saveButton.setDisable(false);
 		});
 		TextField yearsInput = new TextField();
-		yearsInput.setTooltip(new Tooltip("Tapez le nombre d'année de votre tache"));
+		yearsInput.setTooltip(new Tooltip("Taper le nombre d'année de votre tache"));
 		yearsInput.setPromptText("" + dateValue[0]);
 		// Verifionis si pendant l'input on as des chiffres
 		yearsInput.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -578,12 +584,19 @@ public class HBoxSubTask {
 			this.subTask.setName(text);
 			this.globalTask.removeAmountOfTimeByTime(this.subTask.getAmountOfTime());
 			this.globalTask.removeAmountOfTimeByTime(subTaskmerge.getAmountOfTime());
-			if (this.globalTask.getPositionInList(this.subTask) != -1) {
-				this.rootHboxGlobale.getListHBoxSubAttach().remove(this.globalTask.getPositionInList(subTask));
+			int pos = this.globalTask.getPositionInList(this.subTask);
+			if ( pos != -1) {
+				System.out.println("global"+this.globalTask.getListOfSubTaskAttach());
+				System.out.println("allaroothbox"+this.rootHboxGlobale.getListHBoxSubAttach());
+				if (this.globalTask.getPositionInList(subTaskmerge) != -1) {
+					System.out.println("global"+this.globalTask.getListOfSubTaskAttach());
+					System.out.println("allaroothbox"+this.rootHboxGlobale.getListHBoxSubAttach());
+					this.rootHboxGlobale.getListHBoxSubAttach().remove(this.globalTask.getPositionInList(subTaskmerge));
+					this.rootHboxGlobale.getListHBoxSubAttach().remove(pos);
+				}
+				
 			}
-			if (this.globalTask.getPositionInList(subTaskmerge) != -1) {
-				this.rootHboxGlobale.getListHBoxSubAttach().remove(this.globalTask.getPositionInList(subTaskmerge));
-			}
+			
 
 			this.subTask.setAmontOfTimeByTime(time);
 			this.subTask.addAmountOfTimeByTime(subTaskmerge.getAmountOfTime());
@@ -626,7 +639,10 @@ public class HBoxSubTask {
 				this.rootHboxGlobale.getListHBoxSubAttach().remove(this.globalTask.getPositionInList(this.subTask));
 
 			}
+			//TODO: flknsk
 			if (this.allGlobalTask.getPositionOfGlobalTask(otherGlobalTask) != -1) {
+				System.out.println(this +"actualHbox");
+				System.out.println("new HBox"+ this.allHBoxGlobal.get(this.allGlobalTask.getPositionOfGlobalTask(otherGlobalTask)));
 				HBoxSubTask ansub = new HBoxSubTask(this.actualRunnigSave, this.allHBoxGlobal,
 						this.allHBoxGlobal.get(allGlobalTask.getPositionOfGlobalTask(otherGlobalTask))
 								.getListHBoxSubAttach(),
@@ -638,6 +654,8 @@ public class HBoxSubTask {
 				ansub.setHBox();
 				this.allHBoxGlobal.get(this.allGlobalTask.getPositionOfGlobalTask(otherGlobalTask))
 						.getListHBoxSubAttach().add(ansub);
+				System.out.println(this.allHBoxGlobal.get(allGlobalTask.getPositionOfGlobalTask(otherGlobalTask))
+						.getListHBoxSubAttach());
 			}
 			this.globalTask.deleteATaskByTask(this.subTask);
 			this.subTask.setAmontOfTimeByTime(time);

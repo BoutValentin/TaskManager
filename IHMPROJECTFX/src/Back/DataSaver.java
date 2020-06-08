@@ -19,7 +19,7 @@ public class DataSaver {
 	 * Constructeur par defaut: definit le lien vers le fichier de sauvergarde comme ressources( / | \ )saveData
 	 * */
 	public DataSaver() {
-		this.pathname = "ressources"+File.separator+"saveData";
+		this.pathname = "saveData";
 	}
 	/** 
 	 * Constructeur: definit le lien vers le fichier de sauvegarde et son nom

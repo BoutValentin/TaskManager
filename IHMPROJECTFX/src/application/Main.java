@@ -54,7 +54,7 @@ public class Main extends Application {
 	private TaskSaver allTask;
 	private Chrono aChrono;
 	private ActualRunningSave actualRunnigSave;
-
+	private TrayIcon icontray;
 	public void start(Stage stage) {
 		this.stage = stage;
 		this.stage.getIcons().add(new Image(iconPath));
@@ -121,7 +121,7 @@ public class Main extends Application {
 		for (HBoxGlobalTask h : containALl) {
 			root.getChildren().add(h.getVboxAttach());
 		}
-		Button addOne = new Button("Ajoutez une tache",
+		Button addOne = new Button("Ajouter une tache",
 				new ImageView(new Image(HBoxGlobalTask.class.getResourceAsStream(File.separator + "plusC.png"), 35, 35,
 						false, false)));
 		root.getChildren().add(addOne);
@@ -176,6 +176,7 @@ public class Main extends Application {
 			URL imageURl = this.getClass().getResource(iconPath);
 			java.awt.Image image = ImageIO.read(imageURl);
 			TrayIcon trayIcon = new TrayIcon(image);
+			this.icontray = trayIcon;
 			trayIcon.setImageAutoSize(true);
 			trayIcon.addActionListener(e -> Platform.runLater(this::showStage));
 
@@ -192,9 +193,7 @@ public class Main extends Application {
 			}));
 			java.awt.MenuItem closeItem = new java.awt.MenuItem("Fermer l'application");
 			closeItem.addActionListener(e -> {
-				// passer system tray + icon pour remove seulemetn si arret fait
 				stop(this.stage, "resources/saveData", this.allTask);
-				systemTray.remove(trayIcon);
 			});
 			this.notificationTimer.schedule(new TimerTask() {
 
@@ -233,21 +232,21 @@ public class Main extends Application {
 	 */
 	public void handleChoose(java.awt.MenuItem anItem) {
 		if (actualRunnigSave.actualOrLastHbox == null) {
-			Alert alert = new Alert(AlertType.WARNING, "Aucune tache n'a encore etait demarrer", ButtonType.OK);
+			Alert alert = new Alert(AlertType.WARNING, "Aucune tache n'a encore etait demarré", ButtonType.OK);
 			alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 			alert.show();
 		} else if (actualRunnigSave.lastIsSub) {
 			anItem.setEnabled(true);
 			actualRunnigSave.actualOrLastSubHbox.chooseMethod();
 			if (aChrono.getIsOn())
-				anItem.setLabel("Arretez la sous-tache en cours");
+				anItem.setLabel("Arreter la sous-tache en cours");
 			else
 				anItem.setLabel("Reprendre la sous-tache en cours");
 		} else {
 			anItem.setEnabled(true);
 			actualRunnigSave.actualOrLastHbox.chooseMethod();
 			if (aChrono.getIsOn())
-				anItem.setLabel("Arretez la tache en cours");
+				anItem.setLabel("Arreter la tache en cours");
 			else
 				anItem.setLabel("Reprendre la tache en cours");
 		}
@@ -270,7 +269,7 @@ public class Main extends Application {
 					Alert alert = new Alert(AlertType.WARNING, "La tache"
 							+ (actualRunnigSave.lastIsSub ? actualRunnigSave.actualOrLastSubHbox.getSubTaskName()
 									: actualRunnigSave.actualOrLastHbox.getTaskName())
-							+ "est encore en cours! Arretez la avant de quitter", ButtonType.OK);
+							+ "est encore en cours! Arreter la avant de quitter", ButtonType.OK);
 					alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 					alert.show();
 				}
@@ -284,6 +283,7 @@ public class Main extends Application {
 			g.setIsChronoOn(false);
 		}
 		this.saveData(data, 0);
+		if(SystemTray.isSupported())SystemTray.getSystemTray().remove(icontray);
 		Platform.exit();
 		System.exit(0);
 	}

@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="IHMPROJECTFX.jar" size="174877" download="eager" />
+    <jar href="IHMPROJECTFX.jar" size="313476" download="eager" />
   </resources>
   <jfx:javafx-desc  width="0" height="0" main-class="application.Main"  name="Task Manager" />
   <update check="background"/>

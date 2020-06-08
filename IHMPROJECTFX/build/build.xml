@@ -22,13 +22,13 @@
 	
 		<mkdir dir="project" />
 		<copy todir="project">
-			<fileset dir="/home/valentin/eclipse-workspace/IHMPROJECTFX">
-				<include name="ressources/**" />
+			<fileset dir="/home/valentin/git/repository/IHMPROJECTFX">
+				<include name="src/**" />
 			</fileset>
 		</copy>
 		<copy todir="project">
-			<fileset dir="/home/valentin/eclipse-workspace/IHMPROJECTFX">
-				<include name="src/**" />
+			<fileset dir="/home/valentin/git/repository/IHMPROJECTFX">
+				<include name="ressources/**" />
 			</fileset>
 		</copy>
 	
@@ -133,7 +133,7 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="IHMPROJECTFX" nativeBundles="deb"
+			outfile="IHMPROJECTFX" nativeBundles="none"
 			updatemode="background" >
 	
 			<fx:platform basedir="${java.home}"/>
