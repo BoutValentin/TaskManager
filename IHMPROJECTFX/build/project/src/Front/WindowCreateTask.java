@@ -33,7 +33,7 @@ import javafx.util.Callback;
  */
 public class WindowCreateTask {
 	private static final int size = 35;
-	private static final String resLink = "/";
+	private static final String resLink = File.separator;
 	private static ActualRunningSave actualRunningSave;
 	private static Image help = new Image(HBoxGlobalTask.class.getResourceAsStream(resLink + "help.png"), 15, 15, true,
 			true);

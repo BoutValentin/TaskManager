@@ -235,4 +235,12 @@ public class GlobalTask extends Task{
 		}
 		return -1;
 	}
+	
+	public int getPourcentage(SubTask subtask) {
+		try {
+		return (int)((subtask.timeToSeconds()*100)/this.timeToSeconds());
+		}catch (ArithmeticException e) {
+			return 0;
+		}
+	}
 }

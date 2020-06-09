@@ -402,6 +402,21 @@ public class SpecficTime implements Serializable{
 	public String toString() {
 		return "Time: "+this.year+"years, "+this.month+"month, "+this.day+"days, "+this.hours+"hours, "+this.minutes+"minutes, "+this.seconds+"seconds";
 	}
+	/** 
+	 * Méthode renvoyant le temps en secondsd
+	 * @return le temps en secondes
+	 * */
+	public long timeToSeconds() {
+		long res = 0;
+		res += this.seconds;
+		res += this.minutes*60;
+		res += this.hours*3600;
+		res += this.day*24*3600;
+		res += this.month*30*24*3600;
+		res += this.year * 31536000;
+		return res;
+
+	}
 	
 	
 	

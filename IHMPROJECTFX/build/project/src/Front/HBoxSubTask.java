@@ -110,6 +110,7 @@ public class HBoxSubTask {
 		this.root = new HBox();
 		this.containAllExpectDelete = new HBox();
 		this.startButton = new Button();
+		
 		this.paramsButton = new Button();
 		this.deleteButton = new Button();
 		this.taskNameLabel = new Label();
@@ -138,6 +139,7 @@ public class HBoxSubTask {
 		this.root.getStyleClass().addAll("SubHBox", "rootBack");
 		this.containAllExpectDelete.getStyleClass().add("encadreSubHbox");
 		this.startButton.getStyleClass().addAll("encadreButton");
+		
 		this.paramsButton.getStyleClass().add("buttonSub");
 		this.deleteButton.getStyleClass().add("buttonSubTrash");
 		this.containAllExpectDelete.setStyle(
@@ -157,6 +159,7 @@ public class HBoxSubTask {
 		this.startButton.setText("Start");
 		this.startButton.setGraphic(new ImageView(start));
 		this.startButton.setTooltip(new Tooltip("Demarrer le chrono de la sous-taches: " + this.subTask.getName()));
+		
 		this.paramsButton.setGraphic(new ImageView(parameter));
 		this.paramsButton.setTooltip(new Tooltip("Parametrer la sous-tache: " + this.subTask.getName()));
 		this.deleteButton.setGraphic(new ImageView(delete));
