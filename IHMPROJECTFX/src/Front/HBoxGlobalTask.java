@@ -15,8 +15,11 @@ import Back.SubTask;
 import Back.Task;
 import Back.TaskSaver;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -65,6 +68,8 @@ public class HBoxGlobalTask {
 			false, false);
 	private static Image cancel = new Image(HBoxGlobalTask.class.getResourceAsStream(resLink + "closeC.png"), size,
 			size, false, false);
+	private static Image pieChart = new Image(HBoxGlobalTask.class.getResourceAsStream(resLink + "piechartC.png"), size,
+			size, false, false);
 
 	// Attribut Global Commun a tous les HboxGlobale
 	private Chrono chronoOfAll;
@@ -84,6 +89,7 @@ public class HBoxGlobalTask {
 	private Button parameterButton;
 	private Button toggleButton;
 	private Button deleteButton;
+	private Button pieButton;
 	private Button addButton;
 	private Region spacer;
 	private Label taskNameLabel;
@@ -120,6 +126,7 @@ public class HBoxGlobalTask {
 		this.containAll = new HBox();
 		this.containExeptDelete = new HBox();
 		this.startButton = new Button();
+		this.pieButton = new Button();
 		this.parameterButton = new Button();
 		this.toggleButton = new Button();
 		this.deleteButton = new Button();
@@ -187,6 +194,7 @@ public class HBoxGlobalTask {
 		this.containExeptDelete
 				.setStyle("-fx-background-color:" + (this.indexInSave % 2 == 0 ? "#ededed;" : "#ffffff;"));
 		this.startButton.getStyleClass().add("encadreButton");
+		this.pieButton.getStyleClass().add("buttonParamsAndToogle");
 		this.deleteButton.getStyleClass().add("deleteButtonGlobale");
 		this.addButton.getStyleClass().add("addSubPadding");
 		this.timeTextLabel.getStyleClass().add("timeFielGlobale");
@@ -206,6 +214,8 @@ public class HBoxGlobalTask {
 		this.toggleButton.getStyleClass().add("buttonParamsAndToogle");
 		// Initialisation
 		this.startButton.setText("Start");
+		this.pieButton.setGraphic(new ImageView(pieChart));
+		this.pieButton.setTooltip(new Tooltip("Afficher le graphique de tache"));
 		this.startButton.setGraphic(new ImageView(start));
 		this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 		this.parameterButton.setGraphic(new ImageView(parameter));
@@ -241,6 +251,7 @@ public class HBoxGlobalTask {
 		this.toggleButton.setOnMouseClicked(e -> handleShowMore());
 		this.startButton.setOnMouseClicked(e -> chooseMethod());
 		this.parameterButton.setOnMouseClicked(e -> handleParameterAction());
+		this.pieButton.setOnMouseClicked(e -> handlePie());
 		// on appelle la methode static de creation d'une sous tache au click sur le
 		// bouton
 		this.addButton.setOnMouseClicked(e -> WindowCreateTask.createASubTask(this, this.containHboxGLobale,
@@ -250,7 +261,8 @@ public class HBoxGlobalTask {
 		this.root.getChildren().add(this.containAll);
 		this.containAll.getChildren().addAll(this.containExeptDelete, this.deleteButton);
 		this.containExeptDelete.getChildren().addAll(this.startButton, this.taskNameLabel, this.spacer,
-				this.underTaskLabel, this.timeTextLabel, this.labelTheTime, this.parameterButton, this.toggleButton);
+				this.underTaskLabel, this.timeTextLabel, this.labelTheTime, this.pieButton, this.parameterButton,
+				this.toggleButton);
 		// Si l'attribu de globalTask toggle est a true cela signifie que l'on souhaite
 		// afficher les sous tache liés alors on les ajoute a la Vbox Globale par tache
 		if (this.globalTask.getToggle()) {
@@ -263,9 +275,71 @@ public class HBoxGlobalTask {
 	}
 
 	/**
-	 * Méthode rafraichissant les widgets contenue dans la tache et les HBox
-	 * des sous taches liées en fonction des attributs des taches et sous taches
-	 * liés
+	 * Méthode appeler au clic du bouton graphique
+	 */
+	private void handlePie() {
+		VBox windowsRoot = new VBox();
+		Label textLabel = new Label("Graphique de : " + this.globalTask.getName() + " :");
+		Label errorLabel = new Label(
+				"Vous n'avez pas encore travailler sur cette tache \n Commencer un chrono pour voir votre avancée");
+		textLabel.getStyleClass().add("deleteTitleGlobale");
+		textLabel.setTextAlignment(TextAlignment.CENTER);
+		Button cancel = new Button("Fermez le graphique");
+		cancel.setGraphic(new ImageView(HBoxGlobalTask.cancel));
+		cancel.getStyleClass().add("buttonActionCreateSub");
+		HBox containerButton = new HBox();
+		containerButton.getChildren().add(cancel);
+		if (this.globalTask.getAmountOfTime().timeToSeconds() != 0) {
+			containerButton.setPadding(new Insets(30, 0, 15, 400));
+			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+			for (SubTask s : this.globalTask.getListOfSubTaskAttach()) {
+				pieChartData.add(new PieChart.Data(s.getName(), this.globalTask.getPourcentage(s)));
+			}
+			PieChart chart = new PieChart(pieChartData);
+			chart.setTitle("" + this.globalTask.getName() + " chart ");
+
+			SpecficTime aTime = new SpecficTime();
+			for (SubTask s : this.globalTask.getListOfSubTaskAttach()) {
+				aTime.setATimeByAddingAnotherTime(s.getAmountOfTime());
+			}
+			if (this.globalTask.getAmountOfTime().isGreaterThan(aTime)) {
+				SpecficTime anotherTime = new SpecficTime(this.globalTask.getAmountOfTime().getYear(),
+						this.globalTask.getAmountOfTime().getMonth(), this.globalTask.getAmountOfTime().getDay(),
+						this.globalTask.getAmountOfTime().getHours(), this.globalTask.getAmountOfTime().getMinutes(),
+						this.globalTask.getAmountOfTime().getSeconds());
+				anotherTime.setATimeByRemovingWithAnotherTime(aTime);
+				pieChartData.add(new PieChart.Data("Reste du temps global",
+						(anotherTime.timeToSeconds() * 100) / this.globalTask.getAmountOfTime().timeToSeconds()));
+			}
+
+			windowsRoot.getChildren().addAll(textLabel, chart, containerButton);
+		} else {
+			containerButton.setPadding(new Insets(30, 0, 30, 80));
+			errorLabel.setPadding(new Insets(10, 0, 5, 25));
+			windowsRoot.getChildren().addAll(textLabel, errorLabel, containerButton);
+		}
+
+		windowsRoot.getStyleClass().add("rootCreateSub");
+		Scene windowsScene = new Scene(windowsRoot, this.globalTask.getAmountOfTime().timeToSeconds() != 0 ? 1000 : 380,
+				this.globalTask.getAmountOfTime().timeToSeconds() != 0 ? 550 : 180);
+		windowsScene.getStylesheets().add(WindowCreateTask.class
+				.getResource(File.separator + "style" + File.separator + "styling.css").toExternalForm());
+		Stage newWindow = new Stage();
+		newWindow.setTitle("Supprimer une tache");
+		newWindow.setScene(windowsScene);
+		newWindow.initModality(Modality.APPLICATION_MODAL);
+		newWindow.initOwner(primaryStage);
+		newWindow.setX(primaryStage.getX() + this.primaryStage.getWidth() / 2
+				- this.globalTask.getAmountOfTime().timeToSeconds() != 0 ? 500 : -130);
+		newWindow.setY(primaryStage.getY() + this.primaryStage.getHeight() / 2
+				- this.globalTask.getAmountOfTime().timeToSeconds() != 0 ? 300 : 90);
+		newWindow.show();
+		cancel.setOnMouseClicked(e -> newWindow.close());
+	}
+
+	/**
+	 * Méthode rafraichissant les widgets contenue dans la tache et les HBox des
+	 * sous taches liées en fonction des attributs des taches et sous taches liés
 	 */
 	public void refresh(GlobalTask task, Chrono aChrono) {
 		if (!aChrono.getIsOn()) {
@@ -276,6 +350,7 @@ public class HBoxGlobalTask {
 			this.startButton.setTooltip(new Tooltip("Demarrer la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Start");
 			this.addButton.setDisable(false);
+			this.pieButton.setDisable(false);
 
 		} else if (aChrono.getIsOn() && task.getIsChronoOn()) {
 			this.startButton.setDisable(false);
@@ -285,9 +360,11 @@ public class HBoxGlobalTask {
 			this.startButton.setTooltip(new Tooltip("Arreter la tache: " + this.globalTask.getName()));
 			this.startButton.setText("Pause");
 			this.addButton.setDisable(true);
+			this.pieButton.setDisable(true);
 
 		} else {
 			this.startButton.setDisable(true);
+			this.pieButton.setDisable(true);
 			this.deleteButton.setDisable(true);
 			this.parameterButton.setDisable(true);
 			this.startButton.setGraphic(new ImageView(start));
@@ -316,7 +393,8 @@ public class HBoxGlobalTask {
 				this.root.getChildren().add(anHboxSub.getHBoxattach());
 			}
 			this.root.getChildren().add(this.addButton);
-		}else this.toggleButton.setTooltip(new Tooltip("afficher les sous-tâches"));
+		} else
+			this.toggleButton.setTooltip(new Tooltip("afficher les sous-tâches"));
 		Font f = this.taskNameLabel.getFont();
 		this.taskNameLabel.setFont(Font.font(f.getFamily(), FontWeight.BOLD, 15));
 	}
@@ -422,7 +500,7 @@ public class HBoxGlobalTask {
 					+ " secondes";
 		case 3:
 			return "" + task.getAmountOfTime().getHours() + " heures " + task.getAmountOfTime().getMinutes()
-					+ " minutes " + task.getAmountOfTime().getSeconds()+ " secondes";
+					+ " minutes " + task.getAmountOfTime().getSeconds() + " secondes";
 		case 4:
 			return "" + task.getAmountOfTime().getDay() + " jours " + task.getAmountOfTime().getHours() + " heures "
 					+ task.getAmountOfTime().getMinutes() + " minutes " + task.getAmountOfTime().getSeconds()

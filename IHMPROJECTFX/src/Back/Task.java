@@ -197,7 +197,13 @@ public abstract class Task implements Serializable{
 			return false;
 		return true;
 	}
-	
+	/** 
+	 * Méthode retournant le temps attaché en secondes
+	 * @return long nombre de seconde;
+	 * */
+	public long timeToSeconds() {
+		return this.amoutOfTime.timeToSeconds();
+	}
 	
 	
 }

@@ -56,8 +56,7 @@ public class HBoxSubTask {
 			false, false);
 	private static Image cancel = new Image(HBoxGlobalTask.class.getResourceAsStream(resLink + "closeC.png"), size,
 			size, false, false);
-	private static Image pieChart = new Image(HBoxGlobalTask.class.getResourceAsStream(resLink + "graphicC.png"), size,
-			size, false, false);
+
 	private Chrono chronoOfAll;
 	private Stage primaryStage;
 	private VBox rootOfAll;
@@ -72,7 +71,6 @@ public class HBoxSubTask {
 	private HBox root;
 	private HBox containAllExpectDelete;
 	private Button startButton;
-	private Button pieButton;
 	private Button paramsButton;
 	private Button deleteButton;
 	private Label taskNameLabel;
@@ -112,7 +110,7 @@ public class HBoxSubTask {
 		this.root = new HBox();
 		this.containAllExpectDelete = new HBox();
 		this.startButton = new Button();
-		this.pieButton = new Button();
+		
 		this.paramsButton = new Button();
 		this.deleteButton = new Button();
 		this.taskNameLabel = new Label();
@@ -141,7 +139,7 @@ public class HBoxSubTask {
 		this.root.getStyleClass().addAll("SubHBox", "rootBack");
 		this.containAllExpectDelete.getStyleClass().add("encadreSubHbox");
 		this.startButton.getStyleClass().addAll("encadreButton");
-		this.pieButton.getStyleClass().add("buttonSub");
+		
 		this.paramsButton.getStyleClass().add("buttonSub");
 		this.deleteButton.getStyleClass().add("buttonSubTrash");
 		this.containAllExpectDelete.setStyle(
@@ -161,8 +159,7 @@ public class HBoxSubTask {
 		this.startButton.setText("Start");
 		this.startButton.setGraphic(new ImageView(start));
 		this.startButton.setTooltip(new Tooltip("Demarrer le chrono de la sous-taches: " + this.subTask.getName()));
-		this.pieButton.setGraphic(new ImageView(pieChart));
-		this.pieButton.setTooltip(new Tooltip("Afficher le graphique de tache"));
+		
 		this.paramsButton.setGraphic(new ImageView(parameter));
 		this.paramsButton.setTooltip(new Tooltip("Parametrer la sous-tache: " + this.subTask.getName()));
 		this.deleteButton.setGraphic(new ImageView(delete));
